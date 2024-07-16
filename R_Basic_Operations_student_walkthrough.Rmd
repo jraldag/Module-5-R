@@ -1,0 +1,337 @@
+---
+title: "R: Basic Operations"
+output: html_notebook
+---
+
+# R: Basic Operations
+
+## Comments
+
+Comments in R are denoted by `#`
+
+```{r}
+# This is a comment
+```
+
+There is no built-in way to do multi-line comments.
+
+## Mathematical Operations
+
+Mathematical operations in R are handled using the standard 4 symbols `+, -, /, and *` . Operations are calculated using PEMDAS.
+
+### Addition
+
+```{r}
+# Addition
+10 + 512
+```
+
+### Subtraction
+
+```{r}
+# Subtraction
+921 - 14
+```
+
+### Multiplication
+
+```{r}
+# Multiplication
+12 * 42
+```
+
+### Division
+
+```{r}
+# Division
+925 / 5
+```
+
+## Variable Assignment
+
+Variables in R are traditionally assigned using an arrow sign `<-` , made using a less than carat and a dash. It is valid to use `=` , but not recommended.
+
+```{r}
+x <- 10
+x
+```
+
+Variable names can not include and spaces or symbols other than the underscore `_` . They cannot begin with numbers, but can include numbers after the first character.
+
+```{r}
+this_is_valid_10 <- 'test'
+this_is_valid_10
+```
+
+## Data Types
+
+R has the following data types: numeric, integer, character, logical, and complex.
+
+### Numeric
+
+Decimal values in R are numerics. Numerics are the default data type for numbers.
+
+```{r}
+a <- 10
+class(a)
+```
+
+```{r}
+b <- 1.5
+class(b)
+```
+
+Note: Numerics are not integers. You can confirm this with both a and b above using the `is.integer()` function.
+
+```{r}
+is.numeric(a)
+```
+
+```{r}
+is.integer(b)
+```
+
+### Integer
+
+To create an integer in R we can use the `as.integer()` function.
+
+```{r}
+c <- as.integer(1)
+is.integer(c)
+```
+
+```{r}
+class(c)
+```
+
+For shorthand, we can also define an integer by writing the desired integer value, followed by a capital L.
+
+```{r}
+d <- 1L
+class(d)
+```
+
+```{r}
+d
+```
+
+Integers must be whole numbers, if passed a floating value, the number will be rounded to an integer.
+
+```{r}
+d <- as.integer(3.19)
+d
+```
+
+This also works with a string.
+
+```{r}
+e <- as.integer('3.19')
+e
+```
+
+We would use an integer data-type when we want to represent a whole integer, and don't want to accept any other variations of numbers. The numeric data-type is less strict, it allows us to switch between different number types like integers and floats dynamically.
+
+### Character
+
+A **character** type is used to represent strings in R. Characters can be denoted by writing within quotes.
+
+```{r}
+# Defining a character object
+name <- 'Joe'
+```
+
+#### Concatenating character objects
+
+Character objects can be concatenated into a single variable using the `paste` function
+
+```{r}
+first_name <- 'Joe'
+last_name <- 'Smith'
+full_name <- paste(first_name, last_name)
+full_name
+```
+
+#### Converting into character objects
+
+We can convert other objects into character objects using the `as.character()` function
+
+```{r}
+x <- as.character(12)
+x
+```
+
+```{r}
+# Note that class returns the data type of our object
+class(x)
+```
+
+#### Printing character types
+
+You can print out hardcoded character objects with the `print` function
+
+```{r}
+print("John ate 12 cookies")
+```
+
+You can print out formatted character objects with the `sprintf` function. You can use the following symbols to represent formatted parts of the code, each should be preceded by a `%` symbol:
+
+-   d and i - Integer values
+
+-   s - Character string
+
+-   o - Octal
+
+-   x and X - Hexadecimal
+
+-   f - Double precision value (For fixed point representation, for example: 21.234)
+
+-   e and E - Double precision value (For exponential representation, for example: 2.1234e+01)
+
+```{r}
+sprintf('%s ate %d cookies.', 'John', 21)
+```
+
+```{r}
+sprintf('%f %e', 21.234, 21.234)
+```
+
+#### Return a substring
+
+You can get a substring from a character object using the `substr` function
+
+```{r}
+substr("How much wood could a woodchuck chuck?", start <- 5, stop <- 13)
+```
+
+#### Replacing characters in a string
+
+You can replace characters in a string using the `sub` function
+
+```{r}
+sub("much", "little", "How much wood could a woodchuck chuck?")
+# help(sub)
+```
+
+### Logical
+
+A logical value is commonly referred to as a boolean value. It is the result of a comparison between two variables. It is represented as `TRUE` or `FALSE.`
+
+```{r}
+x <- 1
+y <- 3
+z <- x > y
+z
+```
+
+```{r}
+x <- TRUE
+y <- FALSE
+```
+
+```{r}
+x & y
+```
+
+```{r}
+x | y
+```
+
+```{r}
+!x
+```
+
+#### Logical Operators
+
+The standard logical operations are:
+
+-   `&` - And
+
+-   `|` - Or
+
+-   `!` - Not
+
+```{r}
+# see above
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+### Complex
+
+A complex object in R is created using the symbol `i` . The use of the i symbol is in reference to imaginary numbers.
+
+```{r}
+z <- 1 + 2i
+z
+```
+
+```{r}
+class(z)
+```
+
+## Comparison Operators
+
+You can use the following operators to compare two variables and return a logical object:
+
+-   `<` Less than
+
+-   `>` Greater than
+
+-   `<=` Less than or equal to
+
+-   `>=` Greater than or equal to
+
+-   `==` Is equal to
+
+-   `!=` Is NOT equal to
+
+```{r}
+12 > 10
+```
+
+```{r}
+123 < 10
+```
+
+```{r}
+12 <= 10
+```
+
+```{r}
+12 >= 10
+```
+
+```{r}
+12 == 10
+```
+
+```{r}
+12 != 10
+```
+
+## Homework
+
+1.  Create two strings with your first and last name, respectively. Then concatenate them, and print the new value as "My name is \<your newly created concatenated variable will go here\>"
+
+    ```{r}
+    first_name <- 'Josh'
+    last_name <- 'Aldag'
+    full_name <- paste(first_name, last_name)
+    sprintf('My name is %s.', full_name)
+    ```
+
+2.  What values can a BOOLEAN contain?
+
+```{r}
+# Answer: A BOOLEAN can only contain TRUE or FALSE values.
+```
