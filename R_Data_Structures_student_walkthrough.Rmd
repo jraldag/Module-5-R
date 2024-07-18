@@ -1,0 +1,452 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# R: Data Structures
+
+## Vectors
+
+Vectors are a list-like data structure that can contain any number of items of the same data type. Vector elements are separated by commas, and the entire vector must be wrapped in `c()`
+
+```{r}
+names <- c("John", "Jim", "Jenny", "Jake", "Jan")
+names
+```
+
+### Getting a Vector's Type
+
+You can get the type of the elements inside of a vector using the `typeof()` function
+
+```{r}
+typeof(names)
+```
+
+### Getting a Vector's Length
+
+You can get the length of a vector using the `length()` function
+
+```{r}
+length(names)
+```
+
+### Indexing a Vector
+
+You can get the value at a specific index in your vector by placing the elements position within brackets, ex: `[1]` .
+
+**NOTE: Indexes in R start at 1, NOT 0.**
+
+```{r}
+# Note this returns "John", the first element in our Vector
+names[1]
+```
+
+### Generating a sequence between two numerical values
+
+```{r}
+# Generate a sequence from 5 to 15
+my_seq <- 5:15
+print(my_seq)
+
+# Generate a sequence with decimals
+my_seq_2 <- 5.5:15.5
+print(my_seq_2)
+```
+
+#### Using the seq() function
+
+You can also create sequences with more customization by using the `seq()` function. With this you can set a "step" value (this is the `by` parameter).
+
+```{r}
+# Step from 5 to 15 by increments of .3
+my_seq_3 <- seq(5, 15, by <- .3)
+print(my_seq_3)
+```
+
+### Vector Sorting
+
+You can sort vectors using the `sort()` function
+
+```{r}
+my_vector <- c(10, 19, 4, -2, -6, 0, 1200000)
+sort(my_vector)
+```
+
+### Vector Calculations
+
+```{r}
+vector_1 <- c(1, 2, 3, 4, 5, 6)
+vector_2 <- c(4, 5, 6, 7, 8, 9)
+```
+
+#### Addition
+
+```{r}
+add_vector <- vector_1 + vector_2
+add_vector
+```
+
+#### Subtraction
+
+```{r}
+sub_vector <- vector_1 - vector_2
+sub_vector
+```
+
+#### Multiplication
+
+```{r}
+mult_vector <- vector_1 * vector_2
+mult_vector
+```
+
+#### Division
+
+```{r}
+div_vector <- vector_1 / vector_2
+div_vector
+```
+
+### Vector Recycling
+
+If we perform vector calculations on uneven vectors, the elements of the shorter vectors are reused to fill in the remaining length
+
+```{r}
+vector_1 <- c(1, 2, 3)
+vector_2 <- c(4, 5, 6, 7, 8, 9)
+
+vector_add <- vector_1 + vector_2
+vector_add
+
+# vector_1 is repeated to make c(1, 2, 3, 1, 2, 3)
+```
+
+## Lists
+
+Lists in R are generic objects that contain an ordered collection of objects. Lists can contain a variety of data types (they are heterogeneous). Lists are created with the `list()` function.
+
+```{r}
+student_grades <- c(94, 96, 42, 98, 75, 82)
+student_names <- c("John", "Jake", "Jimmy", "Jane", "Jason", "Jenny")
+student_count <- length(student_names)
+
+student_list <- list(student_grades, student_names, student_count)
+student_list
+```
+
+```{r}
+student_info <- list("John", 94)
+student_info
+```
+
+## Dataframes
+
+Dataframes are generic objects that store tabular data. They are two-dimensional data structures that can store any data-type (they are heterogeneous). Dataframes store lists of vectors of equal length (each vector is, essentially, a row).
+
+Dataframes have the following constraints: 
+
+-   A dataframe must have column names and every row should have a unique name.
+
+-   Each column must have an identical number of items.
+
+-   Each item in a single column must be of the same data type.
+
+-   Different columns may have different data types.
+
+When creating a dataframe, you first create the values for each column, and use these to generate your dataframe. You generate a dataframe using the `data.frame()` function.
+
+```{r}
+student_name <- c("John", "Jake", "Jenny")
+student_grade_level <- c("Sophmore", "Junior", "Senior")
+student_class_grade <- c(65, 82, 91)
+
+# Create a dataframe from these three vectors, each vector is its own column.
+df <- data.frame(student_name, student_grade_level, student_class_grade)
+df
+```
+
+### str()
+
+You can get the structure of a dataframe using the `str()` function
+
+```{r}
+str(df)
+```
+
+### summary()
+
+You can get a summary of the data inside of a dataframe using the `summary()` function. This returns useful information like the type of each column and statistical information like the mean, median, and mode of numerical columns.
+
+```{r}
+summary(df)
+```
+
+### Retrieving data from a dataframe
+
+You can index specific columns from a dataframe using the dataframe variable, then a `$` , then the name of the column.
+
+```{r}
+student_grades <- df$student_grade_level
+student_grades
+```
+
+You can also index specific rows by calling the name of the dataframe, followed by square brackets and the rows you want to retrieve. The square brackets accept two values, the first is the rows you want, the second is the columns.
+
+```{r}
+# Get the first two rows and all of the columns
+df[1:2,]
+```
+
+```{r}
+# Get the first and third rows and all of the columns
+df[c(1, 3),]
+```
+
+```{r}
+# Get the first and third rows and the first and third columns
+df[c(1, 3), c(1, 3)]
+```
+
+### Adding New Columns
+
+A new column can be added to a dataframe by indexing the column using the `$` symbol and setting the value to a vector
+
+```{r}
+df$student_subject <- c("Math", "History", "English")
+df
+```
+
+### Adding New Rows
+
+To add new rows to a dataframe, we need to first create a new dataframe using the same structure as the original, then combine the two using the `rbind()` function
+
+```{r}
+student_name <- c("Jan", "Jimmy")
+student_grade_level <- c("Freshman", "Senior")
+student_class_grade <- c(82, 64)
+student_subject <- c("Math", "History")
+
+new_df <- data.frame(
+  student_name,
+  student_grade_level,
+  student_class_grade,
+  student_subject
+)
+
+combined_df <- rbind(df, new_df)
+combined_df
+```
+
+## Matrices
+
+A matrix is a two-dimensional assortment of number data points in columns and rows. In matrices columns run horizontally and rows run vertically. To create a matrix you call the `matrix()` function. You'll have to pass in a vector of data to generate the matrix from, the number of rows you want, and the number of columns you want. Remember, matrices are in column-wise order.
+
+The following parameters are available to you using matrices:
+
+-   **data** is the input vector.
+
+-   **nrow** is the number of rows to be created.
+
+-   **ncol** is the number of columns to be created.
+
+-   **byrow** If TRUE then the input vector elements are arranged by row, if FALSE they are arranged by column. This is false by default.
+
+-   **dimnames** is the names assigned to the rows and columns.
+
+```{r}
+my_matrix <- matrix(
+  c(10, 9, 8, 7, 6, 5, 4, 3, 2, 1),
+  nrow <- 3,
+  ncol <- 5,
+  byrow <- FALSE,
+  dimnames <- list(c("Row 1", "Row 2", "Row 3"))
+)
+
+my_matrix
+```
+
+### Naming Columns and Rows
+
+You can name columns and rows with the optional dimnames parameter
+
+```{r}
+my_matrix <- matrix(
+  c(10, 9, 8, 7, 6, 5, 4, 3, 2, 1),
+  nrow <- 2,
+  ncol <- 5,
+  byrow <- FALSE,
+  dimnames <- list(c("ROW 1", "ROW 2"), c("COL 1", "COL 2", "COL 3", "My Grades", "COL 5"))
+)
+
+my_matrix
+```
+
+### Accessing Matrix Values
+
+Values in a matrix can be accessed by indexing with square brackets.
+
+```{r}
+# Get the element in the 2nd row and 4th column
+my_matrix[2, 4]
+```
+
+You can also get entire rows and columns.
+
+```{r}
+print("The entire second row: ")
+print(my_matrix[2,])
+
+print("----------")
+print("The entire third column: ")
+print(my_matrix[,3])
+```
+
+### Calculations between two matrices
+
+```{r}
+matrix_1 <- matrix(c(1, 2, 3, 4, 5, 6), nrow <- 3)
+matrix_2 <- matrix(c(4, 5, 6, 7, 8, 9), nrow <- 3)
+
+```
+
+#### Addition
+
+```{r}
+add_mat <- matrix_1 + matrix_2
+add_mat
+```
+
+#### Subtraction
+
+```{r}
+sub_mat <- matrix_1 - matrix_2
+sub_mat
+```
+
+#### Multiplication
+
+```{r}
+mult_mat <- matrix_1 * matrix_2
+mult_mat
+```
+
+#### Division
+
+```{r}
+div_mat <- matrix_1 / matrix_2
+div_mat
+```
+
+## Arrays
+
+Arrays can store data in more than two dimensions.They are n-dimensional. If we create an array with the dimensions of (5,6,6), it will create 6 matrices with 5 rows and 6 columns. Arrays are created with the `array ()` function. The first argument is the vector of data to display, the second is the desired dimensions for your array.
+
+```{r}
+my_array <- array(
+  # data
+  c(124, 254, 116, 123, 923, 102, 12),
+  # dimensions
+  dim <- c(3, 3, 3)
+)
+
+my_array
+```
+
+### Naming Array columns and rows
+
+You can name columns, rows, and matrices using the optional dimnames parameter
+
+```{r}
+my_array <- array(
+  # data
+  c(124, 254, 116, 123, 923, 102, 12),
+  # dimensions
+  dim <- c(3, 3, 3),
+  # row/column names
+  dimnames <- list(c("ROW 1", "ROW 2", "ROW 3"), c("COL 1", "COL 2", "LUNCH"), c("MATRIX 1", "MATRIX RELOADED", "MATRIX 3"))
+)
+
+my_array
+```
+
+### Accessing Array Elements
+
+You can access array elements with square brackets, then three arguments. The row, the column, then the matrix.
+
+```{r}
+# Get the element in the second row, third column, first matrix
+my_array[2, 3, 1]
+```
+
+```{r}
+# Get the second row of all of the matrices
+my_array[2, , ]
+```
+
+```{r}
+# Get the second column of all of the matrices
+my_array[,2,]
+```
+
+```{r}
+# Get the second matrix
+my_array[,,2]
+```
+
+## Factors
+
+Factors are used to categorize and store data. Factors are primarily useful when working with categorical data. Factors are useful in data analysis for statistical modeling. Factor data is expected to be a vector of limited, unique values.
+
+Factors are created using the `factor()` function and passing in a vector of data.
+
+```{r}
+# A factor of eye colors
+my_factor <- factor(c("Blue", "Green", "Brown", "Blue", "Green", "Brown", "Gray"))
+my_factor
+```
+
+You can also use the optional levels parameter to specify the order in which the levels should be displayed.
+
+```{r}
+my_factor <- factor(
+  c("Blue", "Green", "Brown", "Blue", "Green", "Brown", "Gray"),
+  levels <- c("Blue", "Gray", "Brown", "Green")
+  )
+
+sort(my_factor)
+```
+
+## Homework
+
+1.  Create an array of two 3x3 matrices from the given vectors.
+
+```{r}
+first_vector <- c(1, 2, 3, 4, 5, 6, 7, 8, 9)
+second_vector <- c(9, 8, 7, 6, 5, 4, 3, 2, 1)
+
+# Answer #1:
+my_array <- array(
+  c(first_vector, second_vector),
+  dim <- c(3, 3, 2),
+  dimnames <- list(c("Row 1", "Row 2", "Row 3"), c("Col 1", "Col 2", "Col 3"), c("first_vector", "second_vector"))
+)
+
+my_array
+```
+
+2.  In the above matrix that you created, print the value 5 by indexing in to the matrix.
+
+3.  Print the third row of the first matrix.
+
+4.  Print the second column of both matrices.
+
+    ```{r}
+    # Answer #2:
+    my_array[2,2,1]
+
+    # Answer #3:
+    my_array[3,,1]
+
+    # Answer #4:
+    my_array[,2,]
+    ```
